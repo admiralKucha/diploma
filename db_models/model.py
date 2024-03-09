@@ -1,10 +1,8 @@
-from enum import Enum
+from sqlalchemy import Integer, String, Column, ForeignKey, Text, CheckConstraint
+from sqlalchemy.orm import declarative_base, relationship, DeclarativeMeta
 
-from pydantic import BaseModel, Field, ConfigDict
-from sqlalchemy import Integer, String, Column
-from sqlalchemy.orm import declarative_base
 
-Base = declarative_base()
+Base: DeclarativeMeta = declarative_base()
 
 
 class Goods(Base):
@@ -16,23 +14,21 @@ class Goods(Base):
     goods_price = Column(Integer)
     seller_id = Column(Integer)
 
-
-# Информация для предпросмотра товаров
-class GoodsSmallInfo(BaseModel):
-    model_config = ConfigDict(from_attributes=True)
-
-    goods_id: int = Field(description="id Товара", default=12)
-    goods_name: str = Field(description="Название товара", default="Товар")
-    goods_price: int = Field(description="Цена товара", default=1200)
+    children = relationship("Reviews", back_populates="parent")
 
 
-# Каким может быть статус
-class StatusEnum(str, Enum):
-    success = "success"
-    error = "error"
+class Reviews(Base):
+    __tablename__ = 'reviews'
 
+    goods_id = Column(Integer, ForeignKey('goods.goods_id'), primary_key=True)
+    user_id = Column(Integer, primary_key=True)
+    review = Column(Text)
+    stars = Column(Integer)
 
-# Вывод всех товаров
-class ResponseGoods(BaseModel):
-    status: StatusEnum
-    data: list[GoodsSmallInfo]
+    parent = relationship("Goods", back_populates="children")
+
+    __table_args__ = (
+        CheckConstraint('stars >= 0'),
+        CheckConstraint('stars <= 5')
+    )
+

@@ -1,54 +1,64 @@
-import asyncio
-import time
-from typing import Annotated
-
 from fastapi import FastAPI, Query
-from fastapi.responses import HTMLResponse
-import uvicorn
-from starlette.staticfiles import StaticFiles
-from starlette.templating import Jinja2Templates
-from fastapi import Request, Form
 
 # то, в чем я правда уверен
-from sqlalchemy import select, insert
-from sqlalchemy.ext.asyncio import create_async_engine
-from db_models.model import ResponseGoods, GoodsSmallInfo
 import db.goods as DBgoods
-"""
-async def main():
-    engine = create_async_engine("postgresql+asyncpg://postgres:postgres@localhost/diploma", echo=True)
-    async with engine.connect() as connection:
-        await connection.run_sync(metadata.create_all)
-
-        ins = insert(goods)
-        for el in range(0, 100):
-            r = await connection.execute(ins, [{"goods_name": "name1"},
-                                               {"goods_name": "name2"},
-                                               {"goods_name": "name3"},
-                                               {"goods_name": "name4"},
-                                               {"goods_name": "name5"},
-                                               {"goods_name": "name6"},
-                                               {"goods_name": "name7"},
-                                               {"goods_name": "name8"},
-                                               ])
-
-        await connection.commit()
-        s = select(goods.c.goods_id)
-        r = await connection.execute(s)
-        print(len(r.fetchall()))
-        engine = create_async_engine("postgresql+asyncpg://postgres:postgres@localhost/diploma", echo=True)
-"""
+import db.reviews as DBreviews
+from db.db_init import sync_engine
+from db_models.model import Base
+from pydantic_models.goods_model import ResponseGoods, ResponseInfoGoods, GoodsInit, ResponseCreateGoods
+from pydantic_models.reviews_model import ReviewInit, ResponseCreateReview, ResponseReviews, ReviewInfo, \
+    ResponseDeleteReview, ResponseUpdateReview, ReviewUpdate
 
 app = FastAPI()
-flag = True
 
-@app.get("/goods/")
-async def show_goods(offset: int = 0, limit: int = 10) -> int:
+Base.metadata.create_all(sync_engine, checkfirst=True)
+
+
+@app.get("/goods")
+async def show_goods(offset: int = 0, limit: int = 10) -> ResponseGoods:
     data = await DBgoods.show_goods(offset, limit)
-    data = [GoodsSmallInfo(data=goods) for goods in data]
     res = ResponseGoods(status="success", data=data)
-    #await asyncio.sleep(120)
-    return 12
+
+    return res
+
+
+@app.post("/goods/{goods_id}")
+async def info_goods(goods_id: int) -> ResponseInfoGoods:
+    data = await DBgoods.info_goods(goods_id)
+    res = ResponseInfoGoods(status="success", data=data)
+    return res
+
+
+@app.get("/goods/{goods_id}/reviews")
+async def show_reviews(goods_id: int, offset: int = 0, limit: int = 10) -> ResponseReviews:
+    data = await DBreviews.show_reviews(goods_id, offset, limit)
+    res = ResponseReviews(status="success", data=data)
+    return res
+
+
+@app.post("/goods/{goods_id}/reviews")
+async def create_review(reviews: ReviewInfo, goods_id: int) -> ResponseCreateReview:
+    res = await DBreviews.create_review(reviews, goods_id)
+    return res
+
+
+@app.delete("/goods/{goods_id}/reviews")
+async def delete_review(goods_id: int, user_id: int) -> ResponseDeleteReview:
+    res = await DBreviews.delete_review(goods_id, user_id)
+    return res
+
+
+@app.patch("/goods/{goods_id}/reviews")
+async def update_review(goods_id: int, user_id: int, review: ReviewUpdate) -> ResponseUpdateReview:
+    res = await DBreviews.update_review(goods_id, user_id, review)
+    return res
+
+
+@app.post("/goods")
+async def create_goods(goods: GoodsInit) -> ResponseCreateGoods:
+    res = await DBgoods.create_goods(goods)
+    return res
+
 
 
 # пока мне не нужно

@@ -1,15 +1,19 @@
 import asyncio
 import time
-
+from inspect import get_annotations
 import aiohttp
+
+
 async def fetch(url, session):
     async with session.get(url) as response:
         return await response.text()
+
 
 async def fetch_all(urls):
     async with aiohttp.ClientSession() as session:
         tasks = [fetch(url, session) for url in urls]
         return await asyncio.gather(*tasks)
+
 
 async def main():
     start = time.time()
@@ -24,5 +28,13 @@ async def main():
     print(end / 10000, "Время одного запроса в среднем")
     # Обработка ответов
 
+
+class Test:
+    a: int
+    b: int
+
+
 if __name__ == "__main__":
-    asyncio.run(main())
+    #asyncio.run(main())
+    a: int = "fsdf"
+    print(get_annotations(Test))
