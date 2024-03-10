@@ -1,4 +1,6 @@
 from enum import Enum
+from typing import Annotated, Union, Optional
+
 from pydantic import BaseModel, Field
 
 
@@ -25,10 +27,18 @@ class GoodsInit(BaseModel):
     seller_id: int | None = Field(description="id продавца", examples=[12])
 
 
+# Информация для обновления одного товара
+class GoodsUpdate(BaseModel):
+    goods_name: Annotated[str, Field(description="Название товара", default="Товар")] = None
+    goods_description: Optional[Annotated[str, Field(description="Описание товара", examples=["Описание товара"])]] = None
+    goods_price: Optional[Annotated[int, Field(description="Цена товара", examples=[1200])]] = None
+
+
 # Каким может быть статус
 class StatusEnum(str, Enum):
     success = "success"
     error = "error"
+    warning = "warning"
 
 
 # Вывод всех товаров
@@ -47,3 +57,15 @@ class ResponseInfoGoods(BaseModel):
 class ResponseCreateGoods(BaseModel):
     status: StatusEnum
     message: str = Field(description="Пояснение к результату выполнения", examples=["Товар успешно создан"])
+
+
+# Вывод информации после обновления товара
+class ResponseUpdateGoods(BaseModel):
+    status: StatusEnum
+    message: str = Field(description="Пояснение к результату выполнения", examples=["Товар успешно обновлен"])
+
+
+# Вывод информации после удаления отзыва
+class ResponseDeleteGoods(BaseModel):
+    status: StatusEnum
+    message: str = Field(description="Пояснение к результату выполнения", examples=["Товар успешно удален"])

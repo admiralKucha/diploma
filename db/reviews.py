@@ -62,7 +62,7 @@ async def delete_review(goods_id: int, user_id: int):
 async def update_review(goods_id: int, user_id: int, review: ReviewUpdate):
     # обновляем обзор
     async with Session() as session:
-        values = {key: value for key, value in review.model_dump().items() if value is not None}
+        values = review.model_dump(exclude_unset=True)
         if len(values) == 0:
             res = {"status": "warning", "message": "Не поступило изменений"}
             return res

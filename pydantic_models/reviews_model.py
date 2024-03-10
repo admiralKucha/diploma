@@ -21,8 +21,8 @@ class ReviewInfo(BaseModel):
 
 # Информация для изменения обзора на товар
 class ReviewUpdate(BaseModel):
-    review: Optional[Annotated[str, Field(description="Текст обзора", examples=["Текст обзора"])]] = None
-    stars: Optional[Annotated[int, Field(description="Количество звезд", examples=[3], ge=1, le=5)]] = None
+    review: Annotated[str, Field(description="Текст обзора", examples=["Текст обзора"])] = None
+    stars: Annotated[int, Field(description="Количество звезд", examples=[3], ge=1, le=5)] = None
 
 
 # Каким может быть статус
