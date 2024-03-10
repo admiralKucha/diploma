@@ -18,6 +18,7 @@ def obj_fetchall(result, obj):
 
 def obj_select(tablename, obj):
     keys = [getattr(tablename, el) for el in obj.__annotations__.keys()]
+    print(keys)
     return select(*keys)
 
 

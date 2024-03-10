@@ -1,10 +1,15 @@
+from typing import Union
+
 from fastapi import FastAPI, Query
 
-# то, в чем я правда уверен
 import db.goods as DBgoods
 import db.reviews as DBreviews
+import db.customers as DBcustomer
+
 from db.db_init import sync_engine
 from db_models.model import Base
+from pydantic_models.customer_model import CustomerInitPhone, CustomerInitEmail, ResponseCreateCustomer, \
+    ResponseInfoCustomer, CustomerUpdate, ResponseUpdateCustomer
 from pydantic_models.goods_model import ResponseGoods, ResponseInfoGoods, GoodsInit, ResponseCreateGoods, GoodsUpdate, \
     ResponseUpdateGoods, ResponseDeleteGoods
 from pydantic_models.reviews_model import ReviewInit, ResponseCreateReview, ResponseReviews, ReviewInfo, \
@@ -13,6 +18,26 @@ from pydantic_models.reviews_model import ReviewInit, ResponseCreateReview, Resp
 app = FastAPI()
 
 Base.metadata.create_all(sync_engine, checkfirst=True)
+
+
+@app.post("/customer")
+async def create_customer(customer: Union[CustomerInitPhone, CustomerInitEmail]) -> ResponseCreateCustomer:
+    res = await DBcustomer.create_customer(customer)
+    return res
+
+
+@app.get("/customer/{customer_id}")
+async def info_customer(customer_id: int) -> ResponseInfoCustomer:
+    data = await DBcustomer.info_customer(customer_id)
+    res = ResponseInfoCustomer(status="success", data=data)
+
+    return res
+
+
+@app.patch("/customer/{customer_id}")
+async def update_customer(customer_id: int, customer: CustomerUpdate) -> ResponseUpdateCustomer:
+    res = await DBcustomer.update_customer(customer_id, customer)
+    return res
 
 
 @app.get("/goods")

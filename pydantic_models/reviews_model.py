@@ -7,14 +7,14 @@ from pydantic import BaseModel, Field
 # Информация для создания отклика
 class ReviewInit(BaseModel):
     goods_id: Annotated[int, Field(description="id Товара", examples=[12])]
-    user_id: Annotated[int, Field(description="id Пользователя, который пишет обзор", examples=[12])]
+    customer_id: Annotated[int, Field(description="id Пользователя, который пишет обзор", examples=[12])]
     review: Annotated[str, Field(description="Текст обзора", examples=["Текст обзора"])]
     stars: Annotated[int, Field(description="Количество звезд", examples=[3], ge=1, le=5)]
 
 
 # Информация для просмотра обзоров на товар
 class ReviewInfo(BaseModel):
-    user_id: Annotated[int, Field(description="id Пользователя, который пишет обзор", examples=[12])]
+    customer_id: Annotated[int, Field(description="id Пользователя, который пишет обзор", examples=[12])]
     review: Annotated[str, Field(description="Текст обзора", examples=["Текст обзора"])]
     stars: Annotated[int, Field(description="Количество звезд", examples=[3], ge=1, le=5)]
 

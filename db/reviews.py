@@ -16,11 +16,11 @@ async def create_review(reviews: ReviewInfo, goods_id: int):
             return res
 
         # проверяем, есть ли уже обзор на данный товар от данного пользователя
-        flag = await session.execute(select(*[Reviews.goods_id, Reviews.user_id]).where(
-            and_(goods_id == Reviews.goods_id, reviews.user_id == Reviews.user_id)))
+        flag = await session.execute(select(*[Reviews.goods_id, Reviews.customer_id]).where(
+            and_(goods_id == Reviews.goods_id, reviews.user_id == Reviews.customer_id)))
         if flag.fetchone():
             await session.execute(update(Reviews).
-                                  where(and_(goods_id == Reviews.goods_id, reviews.user_id == Reviews.user_id)).
+                                  where(and_(goods_id == Reviews.goods_id, reviews.user_id == Reviews.customer_id)).
                                   values(reviews.model_dump()))
             await session.commit()
             res = {"status": "success", "message": "Обзор успешно обновлен"}
@@ -46,7 +46,7 @@ async def delete_review(goods_id: int, user_id: int):
     # удаляем обзор
     async with Session() as session:
         res = await session.execute(delete(Reviews).
-                                    where(and_(goods_id == Reviews.goods_id, user_id == Reviews.user_id)).
+                                    where(and_(goods_id == Reviews.goods_id, user_id == Reviews.customer_id)).
                                     returning(Reviews.goods_id))
 
         # обзора нет
@@ -68,7 +68,7 @@ async def update_review(goods_id: int, user_id: int, review: ReviewUpdate):
             return res
 
         res = await session.execute(update(Reviews).
-                                    where(and_(goods_id == Reviews.goods_id, user_id == Reviews.user_id)).
+                                    where(and_(goods_id == Reviews.goods_id, user_id == Reviews.customer_id)).
                                     values(values).
                                     returning(Reviews.goods_id))
 
