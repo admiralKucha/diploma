@@ -1,4 +1,5 @@
-from sqlalchemy import update, delete
+from sqlalchemy import update, delete, text, select, CursorResult
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from db.db_init import Session
 from db_models.model import Goods
@@ -68,4 +69,40 @@ async def delete_goods(goods_id: int):
 
         await session.commit()
         res = {"status": "success", "message": "Товар успешно удален"}
+    return res
+
+
+async def buy_goods(goods_id: int, user_id: int):
+    # добавляем товар в корзину
+    async with Session() as session:
+        session: AsyncSession
+        res = await session.execute(select(Goods).where(goods_id == Goods.goods_id))
+        # товара нет
+        if res.fetchone() is None:
+            res = {"status": "warning", "message": "Товара не существует"}
+            return res
+
+        # получаем старую информацию о корзине
+        update_query = text(f"SELECT basket ->> '{goods_id}' FROM customers WHERE customer_id = {user_id}; ")
+        res = await session.execute(update_query)
+
+        res = res.fetchone()[0]
+        print(res)
+        if res is None:
+            res = 0
+
+        # добавляем товар
+        res = int(res) + 1
+        goods_id = "{" + str(goods_id) + "}"
+
+        # обновляем информацию
+        update_query = text(
+            "UPDATE customers "
+            f"SET basket = jsonb_set(basket, '{goods_id}', '{res}', true) "
+            f"WHERE customer_id = {user_id};"
+        )
+        print(update_query)
+        await session.execute(update_query)
+        await session.commit()
+        res = {"status": "success", "message": "Товар успешно добавлен в корзину"}
     return res

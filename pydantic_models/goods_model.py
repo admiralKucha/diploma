@@ -17,6 +17,7 @@ class GoodsInfo(BaseModel):
     goods_description: str | None = Field(description="Описание товара", examples=["Описание товара"])
     goods_price: int | None = Field(description="Цена товара", examples=[1200])
     seller_id: int | None = Field(description="id продавца", examples=[12])
+    is_visible: Optional[Annotated[bool, Field(description="Опубликован ли товар", examples=[True])]] = None
 
 
 # Информация для создания товара
@@ -25,6 +26,7 @@ class GoodsInit(BaseModel):
     goods_description: str | None = Field(description="Описание товара", examples=["Описание товара"])
     goods_price: int | None = Field(description="Цена товара", examples=[1200])
     seller_id: int | None = Field(description="id продавца", examples=[12])
+    is_visible: Optional[Annotated[bool, Field(description="Опубликован ли товар", examples=[True])]] = None
 
 
 # Информация для обновления одного товара
@@ -32,6 +34,7 @@ class GoodsUpdate(BaseModel):
     goods_name: Annotated[str, Field(description="Название товара", default="Товар")] = None
     goods_description: Optional[Annotated[str, Field(description="Описание товара", examples=["Описание товара"])]] = None
     goods_price: Optional[Annotated[int, Field(description="Цена товара", examples=[1200])]] = None
+    is_visible: Optional[Annotated[bool, Field(description="Опубликован ли товар", examples=[True])]] = None
 
 
 # Каким может быть статус
@@ -69,3 +72,9 @@ class ResponseUpdateGoods(BaseModel):
 class ResponseDeleteGoods(BaseModel):
     status: StatusEnum
     message: str = Field(description="Пояснение к результату выполнения", examples=["Товар успешно удален"])
+
+
+# Вывод информации после добавления в корзину
+class ResponseBuyGoods(BaseModel):
+    status: StatusEnum
+    message: str = Field(description="Пояснение к результату выполнения", examples=["Товар успешно добавлен в корзину"])

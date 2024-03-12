@@ -9,9 +9,9 @@ import db.customers as DBcustomer
 from db.db_init import sync_engine
 from db_models.model import Base
 from pydantic_models.customer_model import CustomerInitPhone, CustomerInitEmail, ResponseCreateCustomer, \
-    ResponseInfoCustomer, CustomerUpdate, ResponseUpdateCustomer
+    ResponseInfoCustomer, CustomerUpdate, ResponseUpdateCustomer, ResponseBasket, ResponsePatchBasket
 from pydantic_models.goods_model import ResponseGoods, ResponseInfoGoods, GoodsInit, ResponseCreateGoods, GoodsUpdate, \
-    ResponseUpdateGoods, ResponseDeleteGoods
+    ResponseUpdateGoods, ResponseDeleteGoods, ResponseBuyGoods
 from pydantic_models.reviews_model import ReviewInit, ResponseCreateReview, ResponseReviews, ReviewInfo, \
     ResponseDeleteReview, ResponseUpdateReview, ReviewUpdate
 
@@ -31,6 +31,29 @@ async def info_customer(customer_id: int) -> ResponseInfoCustomer:
     data = await DBcustomer.info_customer(customer_id)
     res = ResponseInfoCustomer(status="success", data=data)
 
+    return res
+
+
+@app.get("/customer/{customer_id}/basket")
+async def basket_customer(customer_id: int) -> ResponseBasket:
+    data = await DBcustomer.basket_customer(customer_id)
+    res = ResponseBasket(status="success", data=data)
+
+    return res
+
+
+@app.patch("/customer/{customer_id}/basket/{goods_id}")
+async def patch_basket(customer_id: int, goods_id: int, decrease: bool = False) -> ResponsePatchBasket:
+    res = await DBcustomer.patch_basket(goods_id, customer_id, decrease)
+
+    return res
+
+
+@app.post("/customer/{customer_id}/basket/{goods_id}")
+async def post_basket(customer_id: int, goods_id: int, value: int) -> ResponsePatchBasket:
+    if value < 0:
+        value = 0
+    res = await DBcustomer.post_basket(goods_id, customer_id, value)
     return res
 
 
@@ -71,6 +94,12 @@ async def update_goods(goods_id: int, goods: GoodsUpdate) -> ResponseUpdateGoods
 async def delete_goods(goods_id: int) -> ResponseDeleteGoods:
     res = await DBgoods.delete_goods(goods_id)
     return res
+
+
+@app.get("/goods/{goods_id}/buy")
+async def buy_goods(goods_id: int, user_id: int):
+    data = await DBgoods.buy_goods(goods_id, user_id)
+    return data
 
 
 @app.get("/goods/{goods_id}/reviews")

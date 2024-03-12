@@ -64,3 +64,17 @@ class ResponseUpdateCustomer(BaseModel):
     status: StatusEnum
     message: str = Field(description="Пояснение к результату выполнения",
                          examples=["Информация о пользователе успешно обновлена"])
+
+
+# Вывод корзины пользователя
+class ResponseBasket(BaseModel):
+    status: StatusEnum
+    data: dict
+
+
+# Вывод информации после обновления информации о пользователе (покупателе)
+class ResponsePatchBasket(BaseModel):
+    status: StatusEnum
+    message: str = Field(description="Пояснение к результату выполнения",
+                         examples=["Количество товара изменено"])
+
