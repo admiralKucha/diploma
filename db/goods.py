@@ -7,10 +7,17 @@ from pydantic_models.goods_model import GoodsSmallInfo, GoodsInfo, GoodsInit, Go
 from utils.newORM import obj_fetchone, obj_select, obj_fetchall, obj_insert
 
 
-async def show_goods(offset: int, limit: int):
+async def show_goods(offset: int, limit: int, goods_name: str, seller_id: int):
     # список товаров
     async with Session() as session:
-        result = await session.execute(obj_select(Goods, GoodsSmallInfo).offset(offset).limit(limit))
+        search = f"%{goods_name}%"
+        if seller_id is None:
+            result = await session.execute(obj_select(Goods, GoodsSmallInfo).
+                                           filter(Goods.goods_name.like(search)).offset(offset).limit(limit))
+        else:
+            result = await session.execute(obj_select(Goods, GoodsSmallInfo).where(Goods.seller_id == seller_id).
+                                           filter(Goods.goods_name.like(search)).offset(offset).limit(limit))
+
         all_goods = obj_fetchall(result, GoodsSmallInfo)
     return all_goods
 

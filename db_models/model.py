@@ -13,7 +13,7 @@ class Goods(Base):
     goods_name = Column(String(40), nullable=False)
     goods_description = Column(String)
     goods_price = Column(Integer)
-    seller_id = Column(Integer)
+    seller_id = Column(Integer, ForeignKey('sellers.seller_id'), nullable=False)
     is_visible = Column(Boolean)
 
 
@@ -34,11 +34,18 @@ class Reviews(Base):
 class Customers(Base):
     __tablename__ = 'customers'
 
-    customer_id = Column(Integer, primary_key=True)
+    customer_id = Column(Integer, primary_key=True, autoincrement=True)
     phone_number = Column(String(11), unique=True)
     email = Column(String(40), unique=True)
     customer_name = Column(String(40), nullable=False)
     birthday = Column(DateTime)
     city = Column(String(40))
     basket = Column(JSONB, default={})
+
+
+class Sellers(Base):
+    __tablename__ = 'sellers'
+
+    seller_id = Column(Integer, primary_key=True, autoincrement=True)
+    seller_name = Column(String(40))
 

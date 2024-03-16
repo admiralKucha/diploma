@@ -5,6 +5,7 @@ from fastapi import FastAPI, Query
 import db.goods as DBgoods
 import db.reviews as DBreviews
 import db.customers as DBcustomer
+import db.sellers as DBseller
 
 from db.db_init import sync_engine
 from db_models.model import Base
@@ -14,10 +15,24 @@ from pydantic_models.goods_model import ResponseGoods, ResponseInfoGoods, GoodsI
     ResponseUpdateGoods, ResponseDeleteGoods, ResponseBuyGoods
 from pydantic_models.reviews_model import ReviewInit, ResponseCreateReview, ResponseReviews, ReviewInfo, \
     ResponseDeleteReview, ResponseUpdateReview, ReviewUpdate
+from pydantic_models.seller_model import SellerInit, ResponseCreateSeller, ResponseInfoSeller, ResponseSellers
 
 app = FastAPI()
 
 Base.metadata.create_all(sync_engine, checkfirst=True)
+
+
+@app.post("/seller")
+async def create_seller(seller: SellerInit) -> ResponseCreateSeller:
+    res = await DBseller.create_seller(seller)
+    return res
+
+
+@app.get("/seller")
+async def info_seller(seller_id: int) -> ResponseInfoSeller:
+    data = await DBseller.info_seller(seller_id)
+    res = ResponseInfoSeller(status="success", data=data)
+    return res
 
 
 @app.post("/customer")
@@ -63,9 +78,16 @@ async def update_customer(customer_id: int, customer: CustomerUpdate) -> Respons
     return res
 
 
+@app.get("/show_sellers")
+async def show_sellers(offset: int = 0, limit: int = 10, seller_name: str = "") -> ResponseSellers:
+    data = await DBseller.show_sellers(offset, limit, seller_name)
+    res = ResponseSellers(status="success", data=data)
+    return res
+
+
 @app.get("/goods")
-async def show_goods(offset: int = 0, limit: int = 10) -> ResponseGoods:
-    data = await DBgoods.show_goods(offset, limit)
+async def show_goods(offset: int = 0, limit: int = 10, goods_name: str = "", seller_id: int = None) -> ResponseGoods:
+    data = await DBgoods.show_goods(offset, limit, goods_name, seller_id)
     res = ResponseGoods(status="success", data=data)
 
     return res
