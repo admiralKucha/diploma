@@ -9,6 +9,7 @@ class GoodsSmallInfo(BaseModel):
     goods_id: int = Field(description="id Товара", examples=[12])
     goods_name: str = Field(description="Название товара", examples=["Товар"])
     goods_price: int | None = Field(description="Цена товара", examples=[1200])
+    seller_id: int | None = Field(description="id продавца", examples=[12])
 
 
 # Информация об одном товаре
@@ -17,6 +18,21 @@ class GoodsInfo(BaseModel):
     goods_description: str | None = Field(description="Описание товара", examples=["Описание товара"])
     goods_price: int | None = Field(description="Цена товара", examples=[1200])
     seller_id: int | None = Field(description="id продавца", examples=[12])
+
+
+# Информация краткая информация о товаре для продавца
+class GoodsSmallInfoSeller(BaseModel):
+    goods_id: int = Field(description="id Товара", examples=[12])
+    goods_name: str = Field(description="Название товара", default="Товар")
+    goods_price: int | None = Field(description="Цена товара", examples=[1200])
+    is_visible: Optional[Annotated[bool, Field(description="Опубликован ли товар", examples=[True])]] = None
+
+
+# Информация об одном товаре для продавца
+class GoodsInfoSeller(BaseModel):
+    goods_name: str = Field(description="Название товара", default="Товар")
+    goods_description: str | None = Field(description="Описание товара", examples=["Описание товара"])
+    goods_price: int | None = Field(description="Цена товара", examples=[1200])
     is_visible: Optional[Annotated[bool, Field(description="Опубликован ли товар", examples=[True])]] = None
 
 
@@ -50,10 +66,22 @@ class ResponseGoods(BaseModel):
     data: list[GoodsSmallInfo]
 
 
+# Вывод всех товаров
+class ResponseGoodsSeller(BaseModel):
+    status: StatusEnum
+    data: list[GoodsSmallInfoSeller]
+
+
 # Вывод полной информации об одном товаре
 class ResponseInfoGoods(BaseModel):
     status: StatusEnum
     data: GoodsInfo
+
+
+# Вывод полной информации об одном товаре для продавца
+class ResponseInfoGoodsSeller(BaseModel):
+    status: StatusEnum
+    data: GoodsInfoSeller
 
 
 # Вывод информации после создания товара

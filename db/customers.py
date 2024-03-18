@@ -3,9 +3,11 @@ import string
 from typing import Union
 from sqlalchemy import insert, select, update, and_, text
 from db.db_init import Session
-from db_models.model import Customers, Goods
-from pydantic_models.customer_model import CustomerInitPhone, CustomerInitEmail, CustomerInfo, CustomerUpdate
-from utils.newORM import obj_select, obj_fetchone
+from db_models.model import Customers, Goods, Sellers
+from pydantic_models.customer_model import CustomerInitPhone, CustomerInitEmail, CustomerInfo, CustomerUpdate, \
+    ResponseInfoCustomer
+from pydantic_models.seller_model import SellerShow
+from utils.newORM import obj_select, obj_fetchone, obj_fetchall
 
 
 async def create_customer(customers: Union[CustomerInitPhone, CustomerInitEmail]):
@@ -45,7 +47,11 @@ async def info_customer(customer_id: int):
     async with Session() as session:
         result = await session.execute(obj_select(Customers, CustomerInfo).where(Customers.customer_id == customer_id))
         _customer = obj_fetchone(result, CustomerInfo)
-    return _customer
+        if _customer is None:
+            res = {"status": "error", "message": "Такого пользователя нет"}
+        else:
+            res = ResponseInfoCustomer(status="success", data=_customer)
+    return res
 
 
 async def update_customer(customer_id: int, customer: CustomerUpdate):
@@ -71,99 +77,15 @@ async def update_customer(customer_id: int, customer: CustomerUpdate):
     return res
 
 
-async def basket_customer(user_id: int):
-    # выводим корзину пользователя
+async def show_sellers(offset: int, limit: int, seller_name: str):
+    # список продавцов
     async with Session() as session:
+        search = f"%{seller_name}%"
+        result = await session.execute(obj_select(Sellers, SellerShow).
+                                       filter(Sellers.seller_name.like(search)).offset(offset).limit(limit))
 
-        update_query = text(f"SELECT basket FROM customers WHERE customer_id = {user_id}; ")
-        res = await session.execute(update_query)
-
-        res = res.fetchone()[0]
-        print(res)
-        if res is None:
-            res = dict()
-
+        all_goods = obj_fetchall(result, SellerShow)
+        res = {"status": "success", "data": all_goods}
     return res
-
-
-async def patch_basket(goods_id: int, user_id: int, decrease: bool):
-    # изменяем количество товара в корзине +-1
-    async with Session() as session:
-        res = await session.execute(select(Goods).where(goods_id == Goods.goods_id))
-        # товара нет
-        if res.fetchone() is None:
-            res = {"status": "warning", "message": "Товара не существует"}
-            return res
-
-        # получаем старую информацию о корзине
-        update_query = text(f"SELECT basket ->> '{goods_id}' FROM customers WHERE customer_id = {user_id}; ")
-        res = await session.execute(update_query)
-
-        goods_id = "{" + str(goods_id) + "}"
-        res = res.fetchone()[0]
-        if res is None:
-            res = {"status": "warning", "message": "Товара не было в корзине"}
-            return res
-
-        if decrease:
-            res = int(res) - 1
-            if res == 0:
-                update_query = text(
-                    "UPDATE customers "
-                    f"SET basket = basket #- '{goods_id}' "
-                    f"WHERE customer_id = {user_id};"
-                )
-                await session.execute(update_query)
-                await session.commit()
-                res = {"status": "success", "message": "Товар успешно удален из корзины"}
-                return res
-
-        else:
-            res = int(res) + 1
-
-        # обновляем информацию
-        update_query = text(
-            "UPDATE customers "
-            f"SET basket = jsonb_set(basket, '{goods_id}', '{res}', true) "
-            f"WHERE customer_id = {user_id};"
-        )
-        await session.execute(update_query)
-        await session.commit()
-        res = {"status": "success", "message": "Количество товара изменено в корзине"}
-    return res
-
-
-async def post_basket(goods_id: int, user_id: int, value: int):
-    # изменяем количество товара в корзине числом
-    async with Session() as session:
-        res = await session.execute(select(Goods).where(goods_id == Goods.goods_id))
-        # товара нет
-        if res.fetchone() is None:
-            res = {"status": "warning", "message": "Товара не существует"}
-            return res
-
-        goods_id = "{" + str(goods_id) + "}"
-        if value == 0:
-            update_query = text(
-                "UPDATE customers "
-                f"SET basket = basket #- '{goods_id}' "
-                f"WHERE customer_id = {user_id};"
-            )
-            await session.execute(update_query)
-            await session.commit()
-            res = {"status": "success", "message": "Товар успешно удален из корзины"}
-            return res
-
-        # обновляем информацию
-        update_query = text(
-            "UPDATE customers "
-            f"SET basket = jsonb_set(basket, '{goods_id}', '{value}', true) "
-            f"WHERE customer_id = {user_id};"
-        )
-        await session.execute(update_query)
-        await session.commit()
-        res = {"status": "success", "message": "Количество товара изменено в корзине"}
-    return res
-
 
 

@@ -11,16 +11,17 @@ async def create_review(reviews: ReviewInfo, goods_id: int):
     async with Session() as session:
         # проверяем, есть ли товар
         flag = await session.execute(select(*[Goods.goods_id]).where(goods_id == Goods.goods_id))
-        if not flag.fetchone():
+        if flag.fetchone() is None:
             res = {"status": "error", "message": "Такого товара нет"}
             return res
 
         # проверяем, есть ли уже обзор на данный товар от данного пользователя
         flag = await session.execute(select(*[Reviews.goods_id, Reviews.customer_id]).where(
-            and_(goods_id == Reviews.goods_id, reviews.user_id == Reviews.customer_id)))
-        if flag.fetchone():
+            and_(goods_id == Reviews.goods_id, reviews.customer_id == Reviews.customer_id)))
+
+        if flag.fetchone() is not None:
             await session.execute(update(Reviews).
-                                  where(and_(goods_id == Reviews.goods_id, reviews.user_id == Reviews.customer_id)).
+                                  where(and_(goods_id == Reviews.goods_id, reviews.customer_id == Reviews.customer_id)).
                                   values(reviews.model_dump()))
             await session.commit()
             res = {"status": "success", "message": "Обзор успешно обновлен"}
@@ -39,7 +40,8 @@ async def show_reviews(goods_id: int, offset: int, limit: int):
         result = await session.execute(obj_select(Reviews, ReviewInfo).
                                        where(goods_id == Reviews.goods_id).offset(offset).limit(limit))
         all_reviews = obj_fetchall(result, ReviewInfo)
-    return all_reviews
+        res = {"status": "success", "data": all_reviews}
+    return res
 
 
 async def delete_review(goods_id: int, user_id: int):

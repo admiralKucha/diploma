@@ -3,7 +3,9 @@ from sqlalchemy import select, insert
 
 
 def obj_fetchone(result, obj):
-    res = result.one()
+    res = result.fetchone()
+    if res is None:
+        return res
     keys = obj.__annotations__.keys()
     res = obj(**dict(zip(keys, res)))
     return res
