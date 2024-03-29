@@ -6,6 +6,14 @@ from sqlalchemy.orm import declarative_base, relationship, DeclarativeMeta
 Base: DeclarativeMeta = declarative_base()
 
 
+class AllUsers(Base):
+    __tablename__ = 'all_users'
+    global_id = Column(Integer, primary_key=True, autoincrement=True)
+    login = Column(String(40), nullable=False)
+    password = Column(String(40), nullable=False)
+    role = Column(String(1), nullable=False)
+
+
 class Goods(Base):
     __tablename__ = 'goods'
 
@@ -34,7 +42,7 @@ class Reviews(Base):
 class Customers(Base):
     __tablename__ = 'customers'
 
-    customer_id = Column(Integer, primary_key=True, autoincrement=True)
+    customer_id = Column(Integer, ForeignKey('all_users.global_id'), primary_key=True)
     phone_number = Column(String(11), unique=True)
     email = Column(String(40), unique=True)
     customer_name = Column(String(40), nullable=False)
@@ -46,6 +54,6 @@ class Customers(Base):
 class Sellers(Base):
     __tablename__ = 'sellers'
 
-    seller_id = Column(Integer, primary_key=True, autoincrement=True)
+    seller_id = Column(Integer, ForeignKey('all_users.global_id'), primary_key=True)
     seller_name = Column(String(40))
 
