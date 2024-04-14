@@ -6,9 +6,8 @@
     align-items: center;
 }
 .image-podcontainer{
-    --padding: 0.8rem;
     display: block;
-    padding: var(--padding);
+    padding: 12px;
     background-color: #C7FCEC;
     border-radius: 50px;
     border: 3px solid black;
@@ -23,4 +22,5 @@
     aspect-ratio: 1 / 1;
     object-fit: cover;
     object-position: center;
+    display: block;
 }

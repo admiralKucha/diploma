@@ -1,0 +1,10 @@
+html,
+button {
+    font-family: Roboto, sans-serif;
+    font-weight: 700;
+}
+body{
+    background-color: #fab08f;
+    background-color: #ffff5a;
+    background-color: #7fa0f0;
+}
