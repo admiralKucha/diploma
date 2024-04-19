@@ -2,9 +2,14 @@ html,
 button {
     font-family: Roboto, sans-serif;
     font-weight: 700;
+    font-size: 16pt;
 }
 body{
-    background-color: #fab08f;
+    background-color: rgb(244, 200, 120);
     background-color: #ffff5a;
+    background-color: #fab08f;
+    background-color: #E0E0E0;
+    background-color: #7fa0f0;
+    background-color: #C7FCEC;
     background-color: #7fa0f0;
 }

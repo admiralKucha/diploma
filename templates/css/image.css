@@ -4,6 +4,7 @@
     display: grid;
     justify-content: center;
     align-items: center;
+
 }
 .image-podcontainer{
     display: block;
@@ -11,11 +12,11 @@
     background-color: #C7FCEC;
     border-radius: 50px;
     border: 3px solid black;
+    box-shadow: 3px 3px 0px 1px rgba(0, 0, 0, 0.7);
 }
 
 .image-podcontainer img{
     border: 3px solid black;
-    background-color: #C7FCEC;
     border-radius: 50px;
     width: 525px;
     max-width: 100%;

@@ -21,6 +21,7 @@
     background-image: url('../search105.jpg');
     background-size: cover;
     background-position: center;
+    box-shadow: 3px 3px 0px 3px rgba(0, 0, 0, 0.7);
 
 }
 
@@ -30,6 +31,7 @@
     height: 5ch;
     border-radius: 20px;
     border: dashed 2px;
+    box-shadow: 3px 3px 0px 1px rgba(0, 0, 0, 1);
 }
 
 .account{
@@ -38,6 +40,7 @@
     height: 5ch;
     border-radius: 20px;
     border: dashed 2px;
+    box-shadow: 3px 3px 0px 1px rgba(0, 0, 0, 1);
 }
 
 .yellow-button{
@@ -48,6 +51,7 @@
     width: 3ch;
     height: 3ch;
     border: solid 3px;
+    box-shadow: 3px 3px 0px 1px rgba(0, 0, 0, 1);
 }
 
 .main-button{
@@ -58,6 +62,7 @@
     width: 3ch;
     height: 3ch;
     border: solid 3px;
+    box-shadow: 3px 3px 0px 1px rgba(0, 0, 0, 1);
 }
 
 .brown-button{
@@ -68,4 +73,5 @@
     width: 3ch;
     height: 3ch;
     border: solid 3px;
+    box-shadow: 3px 3px 0px 1px rgba(0, 0, 0, 1);
 }
