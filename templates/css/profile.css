@@ -173,3 +173,17 @@ html{
     width: fit-content;
     text-align: center;
 }
+
+.change-button {
+    width: 30px;
+    height: 30px;
+    background-image: url('../change.png');
+    background-size: cover;
+    border: none;
+    background-color: transparent;
+    margin: 5px 0px 0px 10px;
+}
+
+.to_change {
+    display: flex;
+}
