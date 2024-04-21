@@ -1,11 +1,27 @@
+html{
+    font-size: 16pt;
+}
+.info{
+    width: 100%;
+    margin: auto;
+}
+
 .profile-info {
     display: grid;
-    --card-min-width: 200px;
     gap: 10px;
-    margin: 20px;
-    justify-content: start;
-    align-items: center;
-    grid-template-rows: repeat(11, 2em);
+    margin: 40px auto 20px auto;
+    justify-content: center;
+    align-items: start;
+    min-width: 700px;
+    max-width: 1465px;
+    grid-template-columns: repeat(
+        auto-fill,
+        minmax(367px, 1fr)
+    );
+    grid-template-columns: repeat(
+    auto-fill,
+    minmax(400px, 1fr)
+    );
 }
 
 .image-podcontainer{
@@ -21,6 +37,7 @@
     border: 3px solid black;
     border-radius: 50px;
     width: 300px;
+    min-width: 200px;
     max-width: 100%;
     aspect-ratio: 1 / 1;
     object-fit: cover;
@@ -29,145 +46,130 @@
 }
 
 .image-container{
-    grid-column: 1/2;;
-    grid-row: 1/11;
+    grid-column: 1/2;
+    grid-row: 1/11;;
     display: grid;
     justify-content: center;
     align-items: center;
-
+    margin: 20px;
 }
 
 .profile__name_key {
-    grid-row: 1/2;
-    grid-column: 2/3;
     border: 3px solid #000;
     background: #FFFFFF;
-    padding: 6px 0px 6px 0px;
     box-shadow: 2px 2px 0px 1px rgba(0, 0, 0, 0.7);
     border-radius: 5px;
     width: fit-content;
     text-align: left;
-    padding: 1px 3px 1px 3px;
+    padding: 1px 3px 0px 3px;
+}
+
+.profile_name {
+    margin: 20px;
 }
 
 .profile__name {
-    grid-row: 2/3;
-    grid-column: 2/3;
-
     border: 3px solid #000;
     background: #C7FCEC;
-    padding: 6px 0px 6px 0px;
     box-shadow: 2px 2px 0px 1px rgba(0, 0, 0, 0.7);
     border-radius: 5px;
     width: fit-content;
     text-align: center;
-    padding: 1px 3px 1px 3px;
+    padding: 0px 3px 0px 3px;
+}
+
+.profile_phone_number {
+    margin: 20px;
 }
 
 .profile__phone_number_key {
-    grid-row: 3/4;
-    grid-column: 2/3;
     border: 3px solid #000;
     background: #FFFFFF;
-    padding: 6px 0px 6px 0px;
     box-shadow: 2px 2px 0px 1px rgba(0, 0, 0, 0.7);
     border-radius: 5px;
     width: fit-content;
     text-align: center;
-    padding: 1px 3px 1px 3px;
+    padding: 1px 3px 0px 3px;
 }
 
 .profile__phone_number {
-    grid-row: 4/5;
-    grid-column: 2/3;
-
     border: 3px solid #000;
     background: #C7FCEC;
-    padding: 6px 0px 6px 0px;
     box-shadow: 2px 2px 0px 1px rgba(0, 0, 0, 0.7);
     border-radius: 5px;
     width: fit-content;
     text-align: center;
-    padding: 1px 3px 1px 3px;
+    padding: 0px 3px 0px 3px;
+}
+
+.profile_email {
+    margin: 20px;
 }
 
 .profile__email_key {
-    grid-row: 5/6;
-    grid-column: 2/3;
     border: 3px solid #000;
     background: #FFFFFF;
-    padding: 6px 0px 6px 0px;
     box-shadow: 2px 2px 0px 1px rgba(0, 0, 0, 0.7);
     border-radius: 5px;
     width: fit-content;
     text-align: center;
-    padding: 1px 3px 1px 3px;
+    padding: 1px 3px 0px 3px;
 }
 
 .profile__email {
-    grid-row: 6/7;
-    grid-column: 2/3;
-
     border: 3px solid #000;
     background: #C7FCEC;
-    padding: 6px 0px 6px 0px;
     box-shadow: 2px 2px 0px 1px rgba(0, 0, 0, 0.7);
     border-radius: 5px;
     width: fit-content;
     text-align: center;
-    padding: 1px 3px 1px 3px;
+    padding: 0px 3px 0px 3px;
+}
+
+.profile_birthday{
+    margin: 20px;
 }
 
 .profile__birthday {
-    grid-row: 8/9;
-    grid-column: 2/3;
-
     border: 3px solid #000;
     background: #C7FCEC;
-    padding: 6px 0px 6px 0px;
     box-shadow: 2px 2px 0px 1px rgba(0, 0, 0, 0.7);
     border-radius: 5px;
     width: fit-content;
     text-align: center;
-    padding: 1px 3px 1px 3px;
+    padding: 0px 3px 0px 3px;
 }
 
 .profile__birthday_key {
-    grid-row: 7/8;
-    grid-column: 2/3;
     border: 3px solid #000;
     background: #FFFFFF;
-    padding: 6px 0px 6px 0px;
     box-shadow: 2px 2px 0px 1px rgba(0, 0, 0, 0.7);
     border-radius: 5px;
     width: fit-content;
     text-align: center;
-    padding: 1px 3px 1px 3px;
+    padding: 1px 3px 0px 3px;
+}
+
+.profile_city{
+    margin: 20px;
 }
 
 .profile__city {
-    grid-row: 10/11;
-    grid-column: 2/3;
-
     border: 3px solid #000;
     background: #C7FCEC;
-    padding: 6px 0px 6px 0px;
     box-shadow: 2px 2px 0px 1px rgba(0, 0, 0, 0.7);
     border-radius: 5px;
     width: fit-content;
     text-align: center;
-    padding: 1px 3px 1px 3px;
+    padding: 0px 3px 0px 3px;
 }
 
 .profile__city_key {
-    grid-row: 9/10;
-    grid-column: 2/3;
     border: 3px solid #000;
     background: #FFFFFF;
-    padding: 6px 0px 6px 0px;
     box-shadow: 2px 2px 0px 1px rgba(0, 0, 0, 0.7);
     border-radius: 5px;
-    padding: 1px 3px 1px 3px;
+    padding: 1px 3px 0px 3px;
     width: fit-content;
     text-align: center;
 }
