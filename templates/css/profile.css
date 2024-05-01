@@ -200,10 +200,10 @@ html{
     box-shadow: 2px 2px 0px 1px rgba(0, 0, 0, 0.7);
     border-radius: 5px;
     border: 3px solid #000;
+    margin: 20px 0px;
 }
 
 .slider_points {
-    margin: 10px 0px 0px 5px;
     color: black;
     border: 3px solid #000;
     background: #FFFFFF;
@@ -211,11 +211,11 @@ html{
     border-radius: 5px;
     padding: 1px 3px 0px 3px;
     width: fit-content;
+    height: fit-content;
     text-align: left;
 }
 
 .slider_discount {
-    margin: 10px 0px 0px 5px;
     color: black;
     border: 3px solid #000;
     background: #FFFFFF;
@@ -226,9 +226,10 @@ html{
     text-align: right;
 }
 .slider_info {
-    grid-row: 2/3;
+    grid-row: 1/2;
     display: flex;
     justify-content: space-between;
+    align-items: flex-end;
 }
 .slider_future {
     grid-row: 3/4;
@@ -250,4 +251,92 @@ html{
     width: 20px;
     height: 20px;
     background: green;
+}
+
+.block_orders{
+    width: 100%;
+    margin: 70px 0px 0px 0px;
+}
+
+.orders{
+    min-width: 700px;
+    max-width: 1465px;
+    display: grid;
+    align-items: center;
+    margin: 0px auto 0px auto; 
+}
+
+.one_order {
+    display: grid;
+    grid-auto-flow: column;
+    justify-items: center;
+    align-items: center;
+    border: 3px solid #000;
+    background: #FFFFFF;
+    box-shadow: 2px 2px 0px 1px rgba(0, 0, 0, 0.7);
+    border-radius: 5px;
+    padding: 1px 3px 0px 3px;
+    max-height: 125px;
+    min-height: 123px;
+}
+
+
+.image-podcontainer-order{
+    display: block;
+    padding: 5px;
+}
+
+.image-podcontainer-order img{
+    border: 3px solid black;
+    border-radius: 20px;
+    min-width: 50px;
+    max-width: 100px;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+
+.info-order{
+    --line: 1.15em;
+    --number-of-lines: 3;
+    
+    width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: calc(3 * var(--line));
+    line-height: var(--line);
+}
+.date-city-order{
+    width: 200px;
+}
+
+.title-orders{
+    margin: 200px auto 0px auto;
+    width: fit-content;
+    padding: 10px;
+    font-size: 24pt;
+    border: 3px solid #000;
+    background: #C7FCEC;
+    box-shadow: 2px 2px 0px 1px rgba(0, 0, 0, 0.7);
+    border-radius: 5px;
+}
+
+.mega-title-orders{
+   width: 100%;
+
+}
+
+.one_order_blue {
+    display: grid;
+    grid-auto-flow: column;
+    justify-items: center;
+    align-items: center;
+    border: 3px solid #000;
+    background: #C7FCEC;
+    box-shadow: 2px 2px 0px 1px rgba(0, 0, 0, 0.7);
+    border-radius: 5px;
+    padding: 1px 3px 0px 3px;
+    max-height: 125px;
+    min-height: 123px;
 }
