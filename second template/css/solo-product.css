@@ -1,0 +1,101 @@
+
+@font-face {
+    font-family: 'Rostov';
+    src: url('../fonts/Rostov/Rostov.ttf');
+}
+
+
+@font-face {
+    font-family: 'Dzimaa';
+    src: url('../fonts/Dzimaa/Dzimaa.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'old';
+    src: url('../fonts/old/old.ttf');
+}
+
+
+
+.small-info-product{
+    display: grid;
+
+    grid-template-columns: repeat(
+    auto-fill,
+    minmax(400px, 1fr)
+    );
+
+    grid-row-gap: min(20vw, 40px);
+}
+
+.thumbnails {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    max-width: min(400px, 80vw);
+    width: 100%;
+
+    margin: 2vw 0px 0px 0px;
+}
+
+.focusImage {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    max-width: min(400px, 80vw);
+
+    border: 3px solid #000;
+    box-shadow: 4px 4px 0px 1px rgba(0, 0, 0, 0.8);
+    border-radius: 15px;
+}
+
+.thumbnailImage {
+    max-width: min(15vw, 80px);
+    min-width: min(5vw, 20px);
+    aspect-ratio: 1 / 1;
+    margin: min(5px, 1vw);;
+    cursor: pointer;
+    object-fit: cover;
+
+    border: 2px solid #000;
+    border-radius: 15px;
+}
+
+.images-solo-product{
+    margin: auto;
+}
+
+.small-info-goods{
+    font-family: 'old';
+    font-size: 40px;
+    padding: 0px 1vw 0px 1vw;
+}
+
+.name-price-goods{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.small-description-goods{
+    font-size: 16px;
+    font-family: 'Dzimaa';
+}
+
+.name-goods{
+    font-family: 'Rostov';
+    font-size: 35px;
+    margin: 0px
+}
+
+.price-goods{
+    font-size: 20px;
+    margin: 0px;
+    font-family: 'Rostov';
+}
+
+.button-buy-goods{
+    font-size: 25px;
+    font-family: 'old';
+}
