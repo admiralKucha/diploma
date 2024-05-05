@@ -153,6 +153,7 @@
     font-size: 18px;
 
     margin: 0px;
+
 }
 
 .all-info-product p{
@@ -172,4 +173,60 @@
     display: flex;
     justify-content: space-between;
     margin: 10px 0px 0px 0px;
+}
+
+.all-comments-block{
+    min-width: 370px;
+    margin: 40px 0px 0px 0px;
+    padding: 0px min(30px, 4vw);
+}
+
+.block--hidden2 {
+    display: none;
+}
+
+.all-info-comments {
+    width: 100%;
+
+    font-family: 'Dzimaa';
+    font-size: 18px;
+
+    margin: 0px;
+}
+
+.name-score-comment{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+    background: #FF9E2C;
+
+    padding: 10px;
+
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-left: 2px solid black;
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+}
+
+.name-score-comment p{
+    margin: 0px;
+}
+
+.text-comment{
+    background: #0B0B0B;
+    color: white;
+
+    text-align: justify;
+
+    font-family: 'Montserrat';
+    font-weight: 300;
+
+    height: 100%;
+    padding: 10px 20px 10px 20px;
+    margin: 0px;
+
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
 }
