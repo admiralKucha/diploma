@@ -199,15 +199,16 @@
     flex-direction: column;
     justify-content: space-around;
 
-    background: #FF9E2C;
+    background: #FFD19B;
 
     padding: 10px;
+    width: fit-content;
 
     border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
+    border-top-right-radius: 10px;
     border-left: 2px solid black;
     border-top: 2px solid black;
-    border-bottom: 2px solid black;
+    border-right: 2px solid black;
 }
 
 .name-score-comment p{
@@ -215,8 +216,8 @@
 }
 
 .text-comment{
-    background: #0B0B0B;
-    color: white;
+    color:  black;
+    background: #DEF2E6;
 
     text-align: justify;
 
@@ -229,4 +230,13 @@
 
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+
+    border: 2px solid #0B0B0B;
+}
+
+.key-value-comments{
+    display: grid;
+
+    margin: 40px 0px 0px 0px;
 }
