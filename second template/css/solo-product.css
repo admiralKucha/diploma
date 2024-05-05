@@ -15,7 +15,15 @@
     src: url('../fonts/old/old.ttf');
 }
 
+.main-small-block-goods{
+    display: flex;
 
+    flex-direction: column;
+
+    max-width: 1000px;
+
+    margin: auto;
+}
 
 .small-info-product{
     display: grid;
@@ -26,6 +34,7 @@
     );
 
     grid-row-gap: min(20vw, 40px);
+
 }
 
 .thumbnails {
@@ -69,7 +78,7 @@
 .small-info-goods{
     font-family: 'old';
     font-size: 40px;
-    padding: 0px 1vw 0px 1vw;
+    padding: 0px min(30px, 4vw);
 }
 
 .name-price-goods{
@@ -79,14 +88,15 @@
 }
 
 .small-description-goods{
-    font-size: 16px;
+    font-size: 20px;
     font-family: 'Dzimaa';
+    margin: 10px 0px;
 }
 
 .name-goods{
     font-family: 'Rostov';
-    font-size: 35px;
-    margin: 0px
+    font-size: 50px;
+    margin: 0px 50px 0px 0px;
 }
 
 .price-goods{
@@ -96,6 +106,34 @@
 }
 
 .button-buy-goods{
-    font-size: 25px;
+    font-size: 30px;
     font-family: 'old';
+    width: 100%;
+    padding: 2px;
+    background: #7FDCA4;
+
+    border: 2px solid #000;
+    border-radius: 4px;
+}
+
+.all-info-block{
+    min-width: 380px;
+    margin: 40px 0px 0px 0px;
+    padding: 0px min(30px, 4vw);
+}
+
+.show-all-info-goods{
+    font-size: 30px;
+    font-family: 'old';
+
+    width: 100%;
+    padding: 2px;
+
+    border: 2px solid #000;
+    border-radius: 4px;
+}
+
+.all-info-product {
+    display: none;
+    width: 100%
 }

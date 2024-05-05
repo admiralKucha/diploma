@@ -7,31 +7,58 @@
     <link rel="stylesheet" href="../css/solo-product.css">
 </head>
 <body>
-    <div class="small-info-product">
-        <div class="images-solo-product">
-            <div>
-                <img src="../saveMysoul.jpg" alt="Image in Focus" class="focusImage" id="mainImage">
+    <div class="main-small-block-goods">
+        <div class="small-info-product">
+            <div class="images-solo-product">
+                <div>
+                    <img src="../saveMysoul.jpg" alt="Image in Focus" class="focusImage" id="mainImage">
+                </div>
+
+                <div class="thumbnails">
+                    <img src="../saveMysoul.jpg" alt="Image 1" class="thumbnailImage" onclick="changeFocus('../saveMysoul.jpg')">
+                    <img src="../saveMysoul.jpg" alt="Image 2" class="thumbnailImage" onclick="changeFocus('../saveMysoul.jpg')">
+                    <img src="../topdevochka.jpg" alt="Image 3" class="thumbnailImage" onclick="changeFocus('../topdevochka.jpg')">
+                    <img src="../topdevochka.jpg" alt="Image 3" class="thumbnailImage" onclick="changeFocus('../topdevochka.jpg')">
+                </div>
+
             </div>
 
-            <div class="thumbnails">
-                <img src="../saveMysoul.jpg" alt="Image 1" class="thumbnailImage" onclick="changeFocus('../saveMysoul.jpg')">
-                <img src="../saveMysoul.jpg" alt="Image 2" class="thumbnailImage" onclick="changeFocus('../saveMysoul.jpg')">
-                <img src="../topdevochka.jpg" alt="Image 3" class="thumbnailImage" onclick="changeFocus('../topdevochka.jpg')">
-                <img src="../topdevochka.jpg" alt="Image 3" class="thumbnailImage" onclick="changeFocus('../topdevochka.jpg')">
-            </div>
+            <div class="small-info-goods">
+                <div class="name-price-goods">
+                    <p class="name-goods">Название товара</p>
+                    <p class="price-goods">1OO РУБЛЕЙ</p>
+                </div>
 
+                <p class="small-description-goods">Равным образом начало повседневной работы по формированию позиции позволяет выполнить важнейшие задания по разработке всесторонне сбалансированных нововведений.</p>
+
+                <button class="button-buy-goods">Положить в корзину</button>
+            </div>
         </div>
 
-        <div class="small-info-goods">
-            <div class="name-price-goods">
-                <p class="name-goods">Название товара</p>
-                <p class="price-goods">1OO РУБЛЕЙ</p>
+        <div class="all-info-block">
+            <button onclick="toggleContent()" class="show-all-info-goods">Показать полную информацию</button>
+            <div id="all-info-product" class="all-info-product">
+                <p>Здесь находится информация, которую вы хотите скрывать и показывать.</p>
             </div>
-
-            <p class="small-description-goods">Равным образом начало повседневной работы по формированию позиции позволяет выполнить важнейшие задания по разработке всесторонне сбалансированных нововведений.</p>
-
-            <button class="button-buy-goods">Положить в корзину</button>
         </div>
+
     </div>
+
+    <script>
+        function changeFocus(imageSrc) {
+            document.getElementById('mainImage').src = imageSrc;
+        }
+    </script>
+
+    <script>
+        function toggleContent() {
+          var content = document.getElementById("all-info-product");
+          if (content.style.display === "none") {
+            content.style.display = "block";
+          } else {
+            content.style.display = "none";
+          }
+        }
+    </script>
 </body>
 </html>
