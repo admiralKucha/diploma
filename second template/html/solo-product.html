@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Добавление плашки</title>
     <link rel="stylesheet" href="../css/solo-product.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap">
 </head>
 <body>
     <div class="main-small-block-goods">
@@ -37,8 +38,26 @@
 
         <div class="all-info-block">
             <button onclick="toggleContent()" class="show-all-info-goods">Показать полную информацию</button>
-            <div id="all-info-product" class="all-info-product">
-                <p>Здесь находится информация, которую вы хотите скрывать и показывать.</p>
+            <div class="block--hidden all-info-product">
+                <div class="key-value-goods">
+                    <p>Дискретная видеокарта</p>
+                    <p>отсутствует</p>
+                </div>
+
+                <div class="key-value-goods">
+                    <p>1 свойство</p>
+                    <p>параметр</p>
+                </div>
+
+                <div class="key-value-goods">
+                    <p>1 свойство</p>
+                    <p>параметр</p>
+                </div>
+
+                <div class="key-value-goods">
+                    <p>1 свойство</p>
+                    <p>параметр</p>
+                </div>
             </div>
         </div>
 
@@ -51,13 +70,10 @@
     </script>
 
     <script>
+        const element = document.querySelector(".block--hidden");
+
         function toggleContent() {
-          var content = document.getElementById("all-info-product");
-          if (content.style.display === "none") {
-            content.style.display = "block";
-          } else {
-            content.style.display = "none";
-          }
+            element.classList.toggle("block--hidden");
         }
     </script>
 </body>

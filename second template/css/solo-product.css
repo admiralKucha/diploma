@@ -15,6 +15,11 @@
     src: url('../fonts/old/old.ttf');
 }
 
+@font-face {
+    font-family: 'alcotton';
+    src: url('../fonts/alcotton/alcotton.ttf');
+}
+
 .main-small-block-goods{
     display: flex;
 
@@ -76,7 +81,7 @@
 }
 
 .small-info-goods{
-    font-family: 'old';
+    font-family: 'Dzimaa';
     font-size: 40px;
     padding: 0px min(30px, 4vw);
 }
@@ -106,34 +111,65 @@
 }
 
 .button-buy-goods{
-    font-size: 30px;
-    font-family: 'old';
+    font-size: 20px;
+    font-family: 'Montserrat';
+    font-weight: 300;
+
     width: 100%;
-    padding: 2px;
-    background: #7FDCA4;
+    padding: 18px 0px 18px 0px;
+
+    background: #FF9E2C;
+    color: black;
 
     border: 2px solid #000;
     border-radius: 4px;
+
 }
 
 .all-info-block{
-    min-width: 380px;
+    min-width: 370px;
     margin: 40px 0px 0px 0px;
     padding: 0px min(30px, 4vw);
 }
 
 .show-all-info-goods{
-    font-size: 30px;
-    font-family: 'old';
+    font-size: 20px;
+    font-family: 'Montserrat';
+    font-weight: 300;
 
     width: 100%;
-    padding: 2px;
+    padding: 18px 0px 18px 0px;
 
-    border: 2px solid #000;
-    border-radius: 4px;
+    border: 2px solid #0B0B0B;
+
+    background: #0B0B0B;
+    color: white;
 }
 
 .all-info-product {
+    width: 100%;
+
+    font-family: 'Dzimaa';
+    font-size: 18px;
+
+    margin: 0px;
+}
+
+.all-info-product p{
+    font-size: 20px;
+    font-family: 'Montserrat';
+    font-weight: 300;
+
+    min-width: 150px;
+    padding: 0px 0px 0px 20px
+}
+
+.block--hidden {
     display: none;
-    width: 100%
+}
+
+.key-value-goods{
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0px 0px 0px;
 }
