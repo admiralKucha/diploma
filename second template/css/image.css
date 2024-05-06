@@ -1,0 +1,27 @@
+.image-container{
+    grid-column: span 2 / -1;;
+    grid-row: 2/4;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+
+}
+.image-podcontainer{
+    display: block;
+    padding: 12px;
+    background-color: #C7FCEC;
+    border-radius: 50px;
+    border: 3px solid black;
+    box-shadow: 3px 3px 0px 1px rgba(0, 0, 0, 0.7);
+}
+
+.image-podcontainer img{
+    border: 3px solid black;
+    border-radius: 50px;
+    width: 525px;
+    max-width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
