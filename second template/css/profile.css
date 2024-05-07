@@ -1,3 +1,13 @@
+.container-profile {
+    display: flex;
+
+    flex-direction: column;
+
+    max-width: 1000px;
+    min-width: 375px;
+    margin: auto;
+}
+
 html{
     font-size: 16pt;
 }
@@ -12,26 +22,20 @@ html{
     margin: 40px auto 20px auto;
     justify-content: center;
     align-items: start;
-    min-width: 700px;
+
+    min-width: 375px;
     max-width: 1465px;
+
     grid-template-columns: repeat(
     auto-fill,
-    minmax(400px, 1fr)
+    minmax(375px, 1fr)
     );
 }
 
-.image-podcontainer{
-    display: block;
-    padding: 12px;
-    background-color: #C7FCEC;
-    border-radius: 50px;
-    border: 3px solid black;
-    box-shadow: 3px 3px 0px 1px rgba(0, 0, 0, 0.7);
-}
 
-.image-podcontainer img{
+.image-container img{
     border: 3px solid black;
-    border-radius: 50px;
+    border-radius: 150px;
     width: 300px;
     min-width: 200px;
     max-width: 100%;
@@ -42,8 +46,6 @@ html{
 }
 
 .image-container{
-    grid-column: 1/2;
-    grid-row: 1/11;;
     display: grid;
     justify-content: center;
     align-items: center;
@@ -173,7 +175,7 @@ html{
 .change-button {
     width: 30px;
     height: 30px;
-    background-image: url('../change.png');
+    background-image: url('../img/change.png');
     background-size: cover;
     border: none;
     background-color: transparent;
@@ -191,8 +193,8 @@ html{
 }
 
 .slider {
-    min-width: 700px;
-    max-width: 1465px;
+    min-width: 375px;
+    max-width: 1000px;
     -webkit-appearance: none;
     appearance: none;
     height: 20px;
@@ -259,8 +261,8 @@ html{
 }
 
 .orders{
-    min-width: 700px;
-    max-width: 1465px;
+    min-width: 375px;
+    max-width: 1000px;
     display: grid;
     align-items: center;
     margin: 0px auto 0px auto; 
@@ -301,14 +303,14 @@ html{
     --line: 1.15em;
     --number-of-lines: 3;
     
-    width: 200px;
+    width: 100px;
     overflow: hidden;
     text-overflow: ellipsis;
     height: calc(3 * var(--line));
     line-height: var(--line);
 }
 .date-city-order{
-    width: 200px;
+    width: 100px;
 }
 
 .title-orders{
