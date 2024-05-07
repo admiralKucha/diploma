@@ -1,3 +1,8 @@
+@font-face {
+    font-family: 'Rostov';
+    src: url('../fonts/Rostov/Rostov.ttf');
+}
+
 .container-profile {
     display: flex;
 
@@ -68,7 +73,7 @@
     background: #C7FCEC;
     box-shadow: 2px 2px 0px 1px rgba(0, 0, 0, 0.7);
     border-radius: 5px;
-    width: fit-content;
+    width: 300px;
     text-align: center;
     padding: 0px 3px 0px 3px;
 }
@@ -88,7 +93,7 @@
     background: #C7FCEC;
     box-shadow: 2px 2px 0px 1px rgba(0, 0, 0, 0.7);
     border-radius: 5px;
-    width: fit-content;
+    width: 300px;
     text-align: center;
     padding: 0px 3px 0px 3px;
 }
@@ -109,7 +114,7 @@
     background: #C7FCEC;
     box-shadow: 2px 2px 0px 1px rgba(0, 0, 0, 0.7);
     border-radius: 5px;
-    width: fit-content;
+    width: 300px;
     text-align: center;
     padding: 0px 3px 0px 3px;
 }
@@ -123,7 +128,7 @@
     background: #C7FCEC;
     box-shadow: 2px 2px 0px 1px rgba(0, 0, 0, 0.7);
     border-radius: 5px;
-    width: fit-content;
+    width: 300px;
     text-align: center;
     padding: 0px 3px 0px 3px;
 }
@@ -143,7 +148,7 @@
     background: #C7FCEC;
     box-shadow: 2px 2px 0px 1px rgba(0, 0, 0, 0.7);
     border-radius: 5px;
-    width: fit-content;
+    width: 300px;
     text-align: center;
     padding: 0px 3px 0px 3px;
 }
@@ -169,15 +174,18 @@
 }
 
 .slider-container {
-    width: 100%;
-    display: grid;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+
     justify-content: center;
-    margin: 60px 0px;
+    margin: 40px auto 0px auto;
+    min-width: 350px;
+    max-width: 1000px;
 }
 
 .slider {
-    min-width: 375px;
-    max-width: 1000px;
+
     -webkit-appearance: none;
     appearance: none;
     height: 20px;
@@ -190,10 +198,7 @@
 
 .slider_points {
     color: black;
-    border: 3px solid #000;
-    background: #FFFFFF;
-    box-shadow: 2px 2px 0px 1px rgba(0, 0, 0, 0.7);
-    border-radius: 5px;
+
     padding: 1px 3px 0px 3px;
     width: fit-content;
     height: fit-content;
@@ -202,22 +207,17 @@
 
 .slider_discount {
     color: black;
-    border: 3px solid #000;
-    background: #FFFFFF;
-    box-shadow: 2px 2px 0px 1px rgba(0, 0, 0, 0.7);
-    border-radius: 5px;
+
     padding: 1px 3px 0px 3px;
     width: fit-content;
     text-align: right;
 }
 .slider_info {
-    grid-row: 1/2;
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
 }
 .slider_future {
-    grid-row: 3/4;
     display: flex;
     justify-content: space-between;
 }
@@ -240,7 +240,7 @@
 
 .block_orders{
     width: 100%;
-    margin: 70px 0px 0px 0px;
+    margin: 20px 0px 0px 0px;
 }
 
 .orders{
@@ -289,25 +289,30 @@
     --line: 1.15em;
     --number-of-lines: 3;
     
-    width: 100px;
+    min-width: 100px;
+    max-width: 400px;
+    width: 100%;
+
+    text-align: center;
+
     overflow: hidden;
     text-overflow: ellipsis;
     height: calc(3 * var(--line));
     line-height: var(--line);
+
+    flex: 1 1 0;
 }
 .date-city-order{
     width: 100px;
+    margin: 0px 40px 0px 0px;
 }
 
 .title-orders{
-    margin: 200px auto 0px auto;
+    margin: 50px auto 0px auto;
     width: fit-content;
     padding: 10px;
-    font-size: 24pt;
-    border: 3px solid #000;
-    background: #C7FCEC;
-    box-shadow: 2px 2px 0px 1px rgba(0, 0, 0, 0.7);
-    border-radius: 5px;
+
+    font-size: 40pt;
 }
 
 .mega-title-orders{
@@ -334,9 +339,16 @@
 .info-profile-block{
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
 
 .delivery-info{
     display: flex;
     flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    width: 100%;
+    flex: 1 1 0;
+    margin: 0px 20px
 }
