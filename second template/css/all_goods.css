@@ -10,16 +10,18 @@
 
 .product-list {
 
-    display: grid;
-    gap: 1rem;
-    grid-auto-flow: row dense;
-    grid-template-columns: repeat(
-        auto-fill,
-        minmax(235px, 1fr)
-    );
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 
-    margin: 0px auto 40px auto;
+    justify-content: center;
+
+    gap: 1rem 30px;
+
     width: 100%;
+    min-width: 375px;
+    max-width: 1000px;
+
     list-style: none;
 
     padding: 0px;
@@ -40,7 +42,8 @@
 
     border: 3px solid #000;
     box-shadow: 4px 4px 0px 1px rgba(0, 0, 0, 0.8);
-    margin: auto;
+
+    flex: 1 1 0;
 }
 
 
@@ -50,7 +53,6 @@
 }
 
 .product-card {
-    margin: auto;
 
     font-family: 'Montserrat';
     font-weight: 300;
