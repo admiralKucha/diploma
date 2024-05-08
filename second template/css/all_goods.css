@@ -1,3 +1,8 @@
+@font-face {
+    font-family: 'Dzimaa';
+    src: url('../fonts/Dzimaa/Dzimaa.otf') format('opentype');
+}
+
 .container-menu {
     display: flex;
 
@@ -15,6 +20,7 @@
     flex-wrap: wrap;
 
     justify-content: center;
+    align-items: center;
 
     gap: 1rem 30px;
 
@@ -78,3 +84,56 @@
     font-size: 20px;
 }
 
+.article-link{
+    min-width: 375px;
+    max-width: 400px;
+    width: 100%;
+
+    max-height: 400px;
+    height: 100%;
+
+    font-family: 'Montserrat';
+    font-weight: 300;
+    font-size: 18px;
+
+    flex: 1 2 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    margin: 30px min(5vw, 100px);
+
+
+}
+
+.article-title{
+    margin: 0px 20px 20px 20px;
+    font-size: 30px;
+
+    min-width: 200px;
+    max-width: 300px;
+}
+
+.article-description{
+    min-width: 200px;
+    max-width: 300px;
+    width: 100%;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 8;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    word-wrap: break-word;
+    text-overflow: ellipsis;
+
+    background-color: #8FC3FF;
+
+    margin: 0px 0px;
+    padding: 10px;
+
+    font-family: 'Dzimaa';
+
+    border-radius: 15px;
+    border: 3px solid #000;
+}
