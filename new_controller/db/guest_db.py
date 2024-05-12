@@ -72,15 +72,13 @@ class PostgresDBGuest(main_db.PostgresDB):
             finally:
                 return res
 
-    async def add_user(self, email, cursor):
+    async def add_user(self, email, password, cursor):
         error_message = "Ошибка при работе с функцией создания логина и пароля покупателя"
         res = dict()
         try:
             # Создаем пароль пользователю
             salt = bcrypt.gensalt(rounds=10)
 
-            characters = string.ascii_letters + string.digits
-            password = ''.join(choice(characters) for _ in range(15))
             hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt).decode('utf-8')
 
             # Вставляем пароль
@@ -123,6 +121,7 @@ class PostgresDBGuest(main_db.PostgresDB):
         res = dict()
         try:
             customer = customer.model_dump()
+            customer.pop("password")
             keys, values = ", ".join(list(customer.keys())), list(customer.values())
             str_values = ", ".join([f"${i}" for i in range(2, len(values) + 2)])
 
@@ -157,7 +156,7 @@ class PostgresDBGuest(main_db.PostgresDB):
             try:
 
                 email = customer.email
-
+                password = customer.password
                 # Проверяем уникальность почты
                 res_temp = await self.check_email(email, cursor=cursor)
                 if not res_temp['status']:
@@ -171,7 +170,7 @@ class PostgresDBGuest(main_db.PostgresDB):
                     return res
 
                 # Создаем логин и пароль
-                _login: dict[str, str | dict] = await self.add_user(email, cursor)
+                _login: dict[str, str | dict] = await self.add_user(email, password, cursor)
                 # не смогли создать логин-пароль
                 if not _login['status']:
                     res = {
@@ -201,8 +200,7 @@ class PostgresDBGuest(main_db.PostgresDB):
                 _hash = ''.join(random.choices(string.ascii_letters + string.digits, k=30))
 
                 msg = EmailMessage()
-                msg.set_content(f"Ваш аккаунт зарегистрирован. Ваш логин - {_login['data']['username']}."
-                                f" Ваш пароль - {_login['data']['password']}.")
+                msg.set_content(f"Здравствуйте, {customer.customer_name}!\n\nВы успешно зарегистрировали аккаунт. Спасибо за использование нашего сервиса.")
 
                 msg['Subject'] = 'Регистрация аккаунта'
                 msg['From'] = 'test_tvgu_24@mail.ru'

@@ -1,5 +1,7 @@
 import asyncpg
 
+from models.user import UserLoaded
+
 
 class PostgresDB:
     def __init__(self):
@@ -11,7 +13,7 @@ class PostgresDB:
         self.database = "diploma"
         self.connection = None
 
-        self.KEY_CHECKER = ["id", "username", "user_group", "is_banned"]
+        self.KEY_CHECKER = ["global_id", "username", "user_group"]
         self.KEY_STR_CHECKER = ", ".join(self.KEY_CHECKER)
 
     async def create_pool(self):
@@ -53,6 +55,31 @@ class PostgresDB:
 
         finally:
             return res
+
+    async def checker(self, user_id):
+        res = dict()
+        async with self.connection.acquire() as cursor:
+            try:
+                # Подгружаем информацию о пользователе
+                str_exec = (f"SELECT {self.KEY_STR_CHECKER} FROM all_users"
+                            f" WHERE global_id = $1")
+                res_temp = await cursor.fetchrow(str_exec, user_id)
+
+                # Пользователя нет
+                if res_temp is None:
+                    raise
+
+                # Группируем информацию
+                buf = dict(zip(self.KEY_CHECKER, res_temp))
+                res = UserLoaded(**buf)
+
+            except Exception as error:
+                print(error)
+                res = None
+
+            finally:
+                return res
+
 
 
 

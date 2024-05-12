@@ -108,7 +108,10 @@ def admin_required(func):
 def customer_required(func):
     @wraps(func)
     async def wrapper(*args, **kwargs):
+
+        # нет куки
         session: str | None = kwargs.get("session", None)
+
         if session is None:
             res = {"status": "error", "message": "Необходимо пройти авторизацию"}
             return Response(content=json.dumps(res, ensure_ascii=False), status_code=401, media_type='application/json')
@@ -124,6 +127,8 @@ def customer_required(func):
             return res
 
         user = await main_base.checker(_id)
+
+        # не нашли такого пользователя
         if user is None:
             res = {"status": "error", "message": "Необходимо заново пройти авторизацию"}
             res = Response(content=json.dumps(res, ensure_ascii=False), status_code=401, media_type='application/json')
@@ -131,18 +136,13 @@ def customer_required(func):
 
             return res
 
+        # неправильная роль
         if user.user_group != 1:
             res = {"status": "error", "message": "Недостаточно прав"}
             return Response(content=json.dumps(res, ensure_ascii=False), status_code=403, media_type='application/json')
 
-        if user.is_banned is True:
-            res = {"status": "error", "message": "Пользователь заблокирован"}
-            res = Response(content=json.dumps(res, ensure_ascii=False), status_code=403, media_type='application/json')
-            res.delete_cookie("session")
-
-            return res
-
-        kwargs["session"] = user.id
+        # сохраняем для запроса далее id пользователя
+        kwargs["session"] = user.global_id
         return await func(*args, **kwargs)
 
     return wrapper

@@ -17,3 +17,16 @@ CREATE TABLE customers(
 	city varchar(40), -- Город
 	basket jsonb -- Корзина
 	);
+
+
+DROP TABLE IF EXISTS goods CASCADE;
+CREATE TABLE goods(
+	goods_id Serial Primary key,
+	goods_name varchar(100) NOT NULL, -- Название товара
+	goods_price varchar(30) NOT NULL, -- Цена
+	goods_small_info text, -- Краткое описание товара
+	goods_description jsonb, -- Полное описание
+	goods_tag varchar(40), -- Подкатегория товара
+	goods_img varchar(300) NOT NULL, -- Путь до картинки
+	is_visible boolean DEFAULT TRUE -- Видим ли товар
+	);

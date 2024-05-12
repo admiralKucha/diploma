@@ -22,7 +22,7 @@ async def check_profile():
     return 212
 
 
-@customer.post("/profile", tags=["Покупатель"], summary="Изменить данные профиля")
+@customer.patch("/profile", tags=["Покупатель"], summary="Изменить данные профиля")
 async def change_profile():
     pass
     return 212

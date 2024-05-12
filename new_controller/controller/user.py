@@ -8,6 +8,8 @@ from models.user import UserAuth
 
 from models.customer import CustomerInit
 
+from auth import customer_required
+
 _user = APIRouter(prefix="")
 
 
@@ -38,7 +40,8 @@ async def authentication(user: UserAuth, session: str = Cookie(default=None, inc
 
 
 @_user.post("/logout", tags=["Юзер"], summary="Выйти из аккаунта")
-async def logout_user():
+@customer_required
+async def logout_user(session: str = Cookie(default=None, include_in_schema=False)):
     pass
     return 212
 

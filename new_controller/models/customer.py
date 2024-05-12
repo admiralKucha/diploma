@@ -17,3 +17,4 @@ class CustomerInit(BaseModel):
                                              examples=[datetime.today().date()])]]
     city: Optional[Annotated[str, Field(description="Город пользователя", examples=["Тверь"],
                                         max_length=40)]]
+    password: Annotated[str, Field(description="Пароль пользователя", examples=["1111"])]
