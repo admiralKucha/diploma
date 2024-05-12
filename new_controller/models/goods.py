@@ -23,8 +23,7 @@ class GoodsInit(BaseModel):
     goods_img: Annotated[str, Field(description="Адрес до изображения",
                                     examples=["/img.png"], max_length=30)]
 
-    is_visible: Optional[Annotated[bool, Field(description="Видимость товара",
-                                               examples=[True])]] = True
+    is_visible: Annotated[bool, Field(description="Видимость товара", examples=[True])] = True
 
     def to_db(self):
         goods = self.model_dump()

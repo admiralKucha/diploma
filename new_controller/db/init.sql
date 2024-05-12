@@ -30,3 +30,14 @@ CREATE TABLE goods(
 	goods_img varchar(300) NOT NULL, -- Путь до картинки
 	is_visible boolean DEFAULT TRUE -- Видим ли товар
 	);
+
+DROP TABLE IF EXISTS articles CASCADE;
+CREATE TABLE articles(
+	article_id Serial Primary key,
+	article_title varchar(100) NOT NULL UNIQUE, -- Название статьи
+	article_small_info text NOT NULL, -- Краткое описание
+	article_text text NOT NULL, -- Текст статьи
+	is_visible boolean DEFAULT TRUE -- Видима ли статья
+	);
+
+
