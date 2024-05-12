@@ -16,6 +16,11 @@ class PostgresDBGuest(main_db.PostgresDB):
         self.KEY_AUTH = ["global_id", "username", "password", "user_group"]
         self.KEY_STR_AUTH = ", ".join(self.KEY_AUTH)
 
+        self.KEY_ARTICLE_ALL = ["article_id", "article_title"]
+
+        self.KEY_ARTICLE_ID = ["article_id", "article_title", "article_small_info", "article_text"]
+        self.KEY_STR_ARTICLE_ID = ", ".join(self.KEY_ARTICLE_ID)
+
     async def authentication_user(self, user: dict):
         error_message = "Ошибка при работе с функцией входа пользователя в учетную запись"
         res = dict()
@@ -229,6 +234,71 @@ class PostgresDBGuest(main_db.PostgresDB):
 
             finally:
                 return res
+
+    async def show_all_article(self):
+        # Пользователь хочет посмотреть какие есть статьи
+        error_message = "Ошибка при работе с функцией просмотра статей"
+        res = dict()
+
+        async with self.connection.acquire() as cursor:
+            try:
+
+                # Выгружаем id - название. Проверка - видимость
+                str_exec = (f"SELECT article_id, article_title "
+                            f"from articles WHERE is_visible = True; ")
+
+                all_articles = await cursor.fetch(str_exec)
+
+                all_articles = [dict(zip(self.KEY_ARTICLE_ALL, values)) for values in all_articles]
+                # если все хорошо
+                res = {'status': "success",
+                       'data': all_articles,
+                       "code": 200}
+
+            except Exception as error:
+                print(error)
+                res = {'status': "error",
+                       'data': error_message,
+                       "code": 500}
+
+            finally:
+                return res
+
+    async def show_id_article(self, article_id):
+        # Пользователь хочет посмотреть определенную статью
+        error_message = "Ошибка при работе с функцией просмотра определенной статьи"
+        res = dict()
+
+        async with self.connection.acquire() as cursor:
+            try:
+                # Выгружаем id - название. Проверка - видимость
+                str_exec = (f"SELECT  {self.KEY_STR_ARTICLE_ID}"
+                            f" from articles WHERE is_visible = True AND article_id = $1; ")
+
+                article_info = await cursor.fetchrow(str_exec, article_id)
+
+                if article_info is None:
+                    res = {"status": "warning",
+                           'message': "Такой статьи нет",
+                           "code": 404}
+                    return res
+
+                all_articles = dict(zip(self.KEY_ARTICLE_ID, article_info))
+                # если все хорошо
+                res = {'status': "success",
+                       'data': all_articles,
+                       "code": 200}
+
+            except Exception as error:
+                print(error)
+                res = {'status': "error",
+                       'data': error_message,
+                       "code": 500}
+
+            finally:
+                return res
+
+
 
 
 
