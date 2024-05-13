@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS all_users CASCADE;
 CREATE TABLE all_users(
 	global_id Serial Primary key,
-	login varchar(40) NOT NULL UNIQUE, -- Логин
+	username varchar(40) NOT NULL UNIQUE, -- Логин
 	password text NOT NULL, --Пароль
 	user_group char(1) NOT NULL --Тип пользователя
 	);
@@ -15,7 +15,9 @@ CREATE TABLE customers(
 	customer_name varchar(40) NOT NULL, -- Имя пользователя
 	birthday date, --Дата рождения
 	city varchar(40), -- Город
-	basket jsonb -- Корзина
+	basket jsonb DEFAULT '{}', -- Корзина
+	scores int DEFAULT 0, -- Количество бонусных очков
+	customer_img varchar(300) NOT NULL, -- Путь до картинки
 	);
 
 
@@ -40,5 +42,33 @@ CREATE TABLE articles(
 	is_visible boolean DEFAULT TRUE -- Видима ли статья
 	);
 
-#не забудь сделать заказы
+DROP TABLE IF EXISTS reviews CASCADE;
+CREATE TABLE reviews(
+	review_id Serial Primary key,
+    goods_id int NOT NULL, -- id Товара, на который пишется отзыв
+    customer_id int, -- id пользователя, что пишет отзыв
+    customer_name varchar(40) NOT NULL, -- Имя пользователя, что пишет отзыв
+    stars varchar(40) NOT NULL, -- Рейтинг товара
+    customer_text text NOT NULL, -- Текст комментария
+
+    FOREIGN KEY (goods_id) REFERENCES goods(goods_id) ON DELETE CASCADE,
+    FOREIGN KEY (customer_id) REFERENCES customers (global_id) ON DELETE SET NULL
+	);
+
+
+DROP TABLE IF EXISTS orders CASCADE;
+CREATE TABLE orders(
+	order_id Serial Primary key,
+    goods_id int , -- id Товара, который купил пользователь
+    customer_id int NOT NULL, -- id пользователя, который купил товар
+    customer_name varchar(40) NOT NULL, -- Имя пользователя, что пишет отзыв
+    city varchar(40) NOT NULL, -- Город доставки
+    delivery_date date NOT NULL, --Дата доставки
+    status varchar(40) NOT NULL, -- Статус
+    goods_img varchar(300) NOT NULL, -- Путь до картинки
+
+    FOREIGN KEY (goods_id) REFERENCES goods(goods_id) ON DELETE SET NULL,
+    FOREIGN KEY (customer_id) REFERENCES customers (global_id) ON DELETE CASCADE
+	);
+
 
