@@ -40,4 +40,5 @@ CREATE TABLE articles(
 	is_visible boolean DEFAULT TRUE -- Видима ли статья
 	);
 
+#не забудь сделать заказы
 

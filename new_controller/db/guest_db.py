@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import json
 import random
 import string
 from email.message import EmailMessage
@@ -20,6 +21,13 @@ class PostgresDBGuest(main_db.PostgresDB):
 
         self.KEY_ARTICLE_ID = ["article_id", "article_title", "article_small_info", "article_text"]
         self.KEY_STR_ARTICLE_ID = ", ".join(self.KEY_ARTICLE_ID)
+
+        self.KEY_GOODS = ["goods_id", "goods_name", "goods_price", "goods_img"]
+        self.KEY_STR_GOODS = ", ".join(self.KEY_GOODS)
+
+        self.KEY_GOODS_ID = ["goods_id", "goods_name", "goods_price", "goods_small_info", "goods_description",
+                             "goods_img"]
+        self.KEY_STR_GOODS_ID = ", ".join(self.KEY_GOODS_ID)
 
     async def authentication_user(self, user: dict):
         error_message = "Ошибка при работе с функцией входа пользователя в учетную запись"
@@ -298,8 +306,100 @@ class PostgresDBGuest(main_db.PostgresDB):
             finally:
                 return res
 
+    async def show_all_goods(self):
+        # Пользователь хочет посмотреть какие есть товары
+        error_message = "Ошибка при работе с функцией просмотра товаров"
+        res = dict()
 
+        async with self.connection.acquire() as cursor:
+            try:
 
+                # Выгружаем id - название, цена. Проверка - видимость
+                str_exec = (f"SELECT  {self.KEY_STR_GOODS}"
+                            f" from goods WHERE is_visible = True; ")
+
+                all_goods = await cursor.fetch(str_exec)
+
+                all_goods = [dict(zip(self.KEY_GOODS, values)) for values in all_goods]
+                # если все хорошо
+                res = {'status': "success",
+                       'data': all_goods,
+                       "code": 200}
+
+            except Exception as error:
+                print(error)
+                res = {'status': "error",
+                       'data': error_message,
+                       "code": 500}
+
+            finally:
+                return res
+
+    async def show_id_goods(self, goods_id):
+        # Пользователь хочет посмотреть определенный товар
+        error_message = "Ошибка при работе с функцией просмотра определенного товара"
+        res = dict()
+
+        async with self.connection.acquire() as cursor:
+            try:
+
+                str_exec = (f"SELECT  {self.KEY_STR_GOODS_ID}"
+                            f" from goods WHERE is_visible = True AND goods_id = $1; ")
+
+                goods_info = await cursor.fetchrow(str_exec, goods_id)
+
+                if goods_info is None:
+                    res = {"status": "warning",
+                           'message': "Такого товара нет",
+                           "code": 404}
+                    return res
+
+                all_articles = dict(zip(self.KEY_GOODS_ID, goods_info))
+                description = all_articles.get("goods_description", None)
+                if description is not None:
+                    all_articles["goods_description"] = json.loads(description)
+
+                # если все хорошо
+                res = {'status': "success",
+                       'data': all_articles,
+                       "code": 200}
+
+            except Exception as error:
+                print(error)
+                res = {'status': "error",
+                       'data': error_message,
+                       "code": 500}
+
+            finally:
+                return res
+
+    async def show_all_tags(self):
+        # Пользователь хочет посмотреть все подкатегории
+        error_message = "Ошибка при работе с функцией выдачи каталога"
+        res = dict()
+
+        async with self.connection.acquire() as cursor:
+            try:
+
+                str_exec = (f"SELECT DISTINCT goods_tag"
+                            f" from goods WHERE is_visible = True; ")
+
+                all_tags = await cursor.fetch(str_exec)
+                all_tags = [values[0] for values in all_tags]
+
+                # если все хорошо
+                res = {'status': "success",
+                       'data': all_tags,
+                       "code": 200}
+
+            except Exception as error:
+                print(error)
+                res = {'status': "error",
+                       'data': error_message,
+                       "code": 500}
+
+            finally:
+                return res
 
 
 
