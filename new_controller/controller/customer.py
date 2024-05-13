@@ -65,9 +65,12 @@ async def show_basket(session: str = Cookie(default=None, include_in_schema=Fals
 
 @customer.post("/basket/{goods_id}/buy", tags=["Покупатель"], summary="Купить товар из корзины")
 @customer_required
-async def buy_goods_basket(session: str = Cookie(default=None, include_in_schema=False)):
-    pass
-    return 212
+async def buy_goods_basket(goods_id: int, city: str, session: str = Cookie(default=None, include_in_schema=False)):
+    res = await databaseCustomer.buy_goods(goods_id, session, city)
+    code = res.pop("code")
+
+    return Response(content=json.dumps(res, ensure_ascii=False),
+                    status_code=code, media_type='application/json', headers={"Accept": "application/json"})
 
 
 @customer.post("/basket/{goods_id}", tags=["Покупатель"], summary="Изменить количество товаров в корзине")

@@ -62,7 +62,7 @@ CREATE TABLE orders(
 	order_id Serial Primary key,
     goods_id int , -- id Товара, который купил пользователь
     customer_id int NOT NULL, -- id пользователя, который купил товар
-    customer_name varchar(40) NOT NULL, -- Имя пользователя, что пишет отзыв
+    goods_name varchar(40) NOT NULL, -- Название товара
     city varchar(40) NOT NULL, -- Город доставки
     delivery_date date NOT NULL, --Дата доставки
     status varchar(40) NOT NULL, -- Статус

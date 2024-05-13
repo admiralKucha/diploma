@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import datetime
 import json
 
 import bcrypt
@@ -12,11 +13,14 @@ class PostgresDBCustomer(main_db.PostgresDB):
         self.KEY_PROFILE = ["customer_name", "phone_number", "email", "birthday", "city", "scores", "customer_img"]
         self.KEY_STR_PROFILE = ", ".join(self.KEY_PROFILE)
 
-        self.KEY_PROFILE_ORDERS = ["goods_id", "customer_name", "city", "delivery_date", "status", "goods_img"]
+        self.KEY_PROFILE_ORDERS = ["goods_id", "goods_name", "city", "delivery_date", "status", "goods_img"]
         self.KEY_STR_PROFILE_ORDERS = ", ".join(self.KEY_PROFILE_ORDERS)
 
         self.KEY_BASKET = ["goods_name", "goods_price", "goods_id", "goods_img"]
         self.KEY_STR_BASKET = ", ".join(self.KEY_BASKET)
+
+        self.KEY_BASKET_BUY = ["goods_name", "goods_id", "goods_img"]
+        self.KEY_STR_BASKET_BUY = ", ".join(self.KEY_BASKET_BUY)
 
     async def create_review(self, review, goods_id, customer_id):
         error_message = "Ошибка при работе с функцией создания отзыва"
@@ -375,6 +379,51 @@ class PostgresDBCustomer(main_db.PostgresDB):
                     "code": 500
                 }
                 await transaction.rollback()
+
+            finally:
+                return res
+
+    async def buy_goods(self, goods_id, customer_id, city):
+        # Пользователь покупает товар из корзины
+        error_message = "Ошибка при работе с покупкой товара"
+        res = dict()
+
+        async with self.connection.acquire() as cursor:
+            try:
+
+                # Выгружаем всю информацию из корзины
+                str_exec = f"SELECT basket FROM customers WHERE global_id = $1; "
+
+                basket = await cursor.fetchrow(str_exec, customer_id)
+                basket = json.loads(basket[0])
+
+                list_id = "(" + ", ".join([f"'{el}'" for el in basket.keys()]) + ")"
+
+                # Выгружаем все данные для корзины
+                str_exec = f"SELECT {self.KEY_STR_BASKET_BUY} FROM goods WHERE goods_id = $1; "
+
+                goods = await cursor.fetchrow(str_exec, goods_id)
+
+                goods = dict(zip(self.KEY_BASKET_BUY, goods))
+
+                now = datetime.datetime.now()
+
+                # Записываем
+                str_exec = (f'INSERT INTO orders (goods_id, customer_id, goods_name, city, delivery_date, status, goods_img) '
+                            f'VALUES ($1, $2, $3, $4, $5, $6, $7);')
+                await cursor.execute(str_exec, goods_id, customer_id, goods["goods_name"], city, now, "Доставлен", goods["goods_img"])
+
+                # Отзыв успешно создан
+                res = {
+                    "status": "success",
+                    "message": "Товар куплен",
+                    "code": 201
+                }
+            except Exception as error:
+                print(error)
+                res = {'status': "error",
+                       'data': error_message,
+                       "code": 500}
 
             finally:
                 return res
