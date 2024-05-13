@@ -18,3 +18,11 @@ class CustomerInit(BaseModel):
     city: Optional[Annotated[str, Field(description="Город пользователя", examples=["Тверь"],
                                         max_length=40)]]
     password: Annotated[str, Field(description="Пароль пользователя", examples=["1111"])]
+
+
+class CustomerChange(BaseModel):
+    customer_name: Annotated[str, Field(description="Никнейм пользователя", examples=["user-13125345"],
+                                        max_length=40)]
+
+    city: Optional[Annotated[str, Field(description="Город пользователя", examples=["Тверь"],
+                                        max_length=40)]]

@@ -30,7 +30,8 @@ CREATE TABLE goods(
 	goods_description jsonb, -- Полное описание
 	goods_tag varchar(40), -- Подкатегория товара
 	goods_img varchar(300) NOT NULL, -- Путь до картинки
-	is_visible boolean DEFAULT TRUE -- Видим ли товар
+	is_visible boolean DEFAULT TRUE, -- Видим ли товар
+	goods_reserve int -- Резерв товара
 	);
 
 DROP TABLE IF EXISTS articles CASCADE;

@@ -6,6 +6,8 @@ from init import databaseCustomer
 
 from auth import customer_required
 
+from models.customer import CustomerChange
+
 customer = APIRouter(prefix="")
 
 
@@ -42,16 +44,23 @@ async def check_profile(session: str = Cookie(default=None, include_in_schema=Fa
 
 @customer.patch("/profile", tags=["Покупатель"], summary="Изменить данные профиля")
 @customer_required
-async def change_profile(session: str = Cookie(default=None, include_in_schema=False)):
-    pass
-    return 212
+async def change_profile(profile: CustomerChange, session: str = Cookie(default=None, include_in_schema=False)):
+    profile = profile.model_dump()
+    res = await databaseCustomer.change_profile(profile, session)
+    code = res.pop("code")
+
+    return Response(content=json.dumps(res, ensure_ascii=False),
+                    status_code=code, media_type='application/json', headers={"Accept": "application/json"})
 
 
 @customer.get("/basket", tags=["Покупатель"], summary="Получить все товары из корзины")
 @customer_required
 async def show_basket(session: str = Cookie(default=None, include_in_schema=False)):
-    pass
-    return 212
+    res = await databaseCustomer.show_basket(session)
+    code = res.pop("code")
+
+    return Response(content=json.dumps(res, ensure_ascii=False),
+                    status_code=code, media_type='application/json', headers={"Accept": "application/json"})
 
 
 @customer.post("/basket/{goods_id}/buy", tags=["Покупатель"], summary="Купить товар из корзины")
@@ -63,13 +72,19 @@ async def buy_goods_basket(session: str = Cookie(default=None, include_in_schema
 
 @customer.post("/basket/{goods_id}", tags=["Покупатель"], summary="Изменить количество товаров в корзине")
 @customer_required
-async def buy_goods_basket(session: str = Cookie(default=None, include_in_schema=False)):
-    pass
-    return 212
+async def change_goods_basket(goods_id: int, session: str = Cookie(default=None, include_in_schema=False), number=1):
+    res = await databaseCustomer.change_basket(goods_id, session, number)
+    code = res.pop("code")
+
+    return Response(content=json.dumps(res, ensure_ascii=False),
+                    status_code=code, media_type='application/json', headers={"Accept": "application/json"})
 
 
 @customer.delete("/basket/{goods_id}", tags=["Покупатель"], summary="Удалить товар из корзины")
 @customer_required
-async def delete_goods_basket(session: str = Cookie(default=None, include_in_schema=False)):
-    pass
-    return 212
+async def delete_goods_basket(goods_id: int, session: str = Cookie(default=None, include_in_schema=False)):
+    res = await databaseCustomer.delete_basket(goods_id, session)
+    code = res.pop("code")
+
+    return Response(content=json.dumps(res, ensure_ascii=False),
+                    status_code=code, media_type='application/json', headers={"Accept": "application/json"})
